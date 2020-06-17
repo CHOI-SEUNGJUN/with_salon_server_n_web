@@ -1,0 +1,55 @@
+div#loginform {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -108px;
+    margin-top: -64px;
+}
+
+input[type=text] {
+    width: 200px;
+    max-width: 200px;
+    padding: 12px 20px;
+    margin: 4px 8px;
+    box-sizing: border-box;
+    border: none;
+    background-color: #3CBC8D;
+    color: white;
+}
+
+input[type=password] {
+    width: 200px;
+    max-width: 200px;
+    padding: 12px 20px;
+    margin: 4px 8px;
+    box-sizing: border-box;
+    border: none;
+    background-color: #3CBC8D;
+    color: white;
+}
+
+input::placeholder {
+    color: white;
+}
+
+input[type=submit] {
+    max-width: 200px;
+    width: 200px;
+    height: 30px;
+    padding:5px 15px; 
+    background:#903cbc8d; 
+    border:0 none;
+    margin: 4px 8px;
+    color: white;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; 
+}
+
+input:focus {
+    outline: none;
+}
+
+p {
+    margin: 0;
+}
