@@ -8,7 +8,7 @@ const sqlUtil = require('./utils/sqlUtil')
 server.listen(port, () => { console.log(`Listening on port ${port}`) });
 
 io.on('connection', (socket) => {
-    console.log('사용자 접속:', socket.client.id)
+    console.log('위드살롱 :: MVP 실시간 사용자 접속 => ', socket.client.id)
 
     socket.on('paging', (obj) => {
         console.log(`paging: ${obj.roomName} => `, obj)
@@ -17,7 +17,7 @@ io.on('connection', (socket) => {
 
     socket.on('joinRoom', (roomName) => {
         socket.join(roomName, () => {
-            console.log(`${socket.client.id}의 입장 => ${roomName}`)
+            console.log(`${socket.client.id}님의 방 입장 => ${roomName}`)
         })
     })
 
@@ -30,7 +30,7 @@ const loadInfo = async(roomName, curPage) => {
     WHERE (room.roomName = '${roomName}' AND pageNum = ${curPage})`
     await sqlUtil.sqlQueryPromise(loadSql)
     .then((res) => {
-        console.log('res=====> 로드하였음')
+        console.log(`${roomName}에서 ${curPage} 페이지를 로드하였습니다.`)
         io.sockets.in(roomName).emit('paging', res)
     })
     .catch((err) => {

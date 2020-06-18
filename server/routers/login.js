@@ -19,16 +19,14 @@ router.get('/api/getRoom', async (req, res) => {
 router.post('/api/checkRoom', async (req, res) => {
     var roomName = req.body.roomName
     var password = req.body.password
-    console.log(roomName)
     await sqlUtil.sqlQueryPromise(`SELECT * FROM room WHERE roomName = '${roomName}'`)
     .then((room) => {
+        console.log(`위드살롱 :: ${roomName}에 누군가가 로그인 시도 중`)
         if (room.length === 0) {
             res.status(statusCode.BAD_REQUEST).send(
                 ResponseUtil(statusCode.BAD_REQUEST, "Input the correct roomname.", "")
             )
         } else if(room[0].password !== password) {
-            console.log('password', room[0].password)
-            console.log('input', password)
             res.status(statusCode.BAD_REQUEST).send(
                 ResponseUtil(statusCode.BAD_REQUEST, "Wrong Password", "")
             )

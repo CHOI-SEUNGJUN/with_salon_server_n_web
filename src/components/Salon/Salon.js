@@ -4,6 +4,7 @@ import './Salon.css'
 import Urls from '../../utils/Urls'
 import { withRouter, useLocation } from 'react-router-dom';
 import socketio from 'socket.io-client'
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 
 function Salon() {
 
@@ -19,8 +20,12 @@ function Salon() {
     const [socket, setSocket] = useState(null)
 
     const location = useLocation()
+
+    let targetElement = null;
     
     useEffect(() => {
+        disableBodyScroll(targetElement)
+
         if (socket !== null) {
             socket.emit('joinRoom', roomName)
 
@@ -47,6 +52,7 @@ function Salon() {
     }, [socket])
 
     useEffect(() => {
+        targetElement = document.querySelector('#main')
         setRoomName(location.state.roomName)
         //setCurPage(location.state.curPage)
     }, [location])
@@ -68,7 +74,10 @@ function Salon() {
     }, [curPage])
 
     useEffect(() => {
-        return () => setIsLoading(false)
+        return () => {
+            setIsLoading(false)
+            clearAllBodyScrollLocks(targetElement)
+        }
     })
 
     const loadPage = async (_roomName, _curPage) => {
@@ -196,7 +205,7 @@ function Salon() {
     })
 
     return(
-        <div>
+        <div id="main">
             {mainPart()}
             <div>
                 {questionPart()}

@@ -3,11 +3,13 @@ import axios from 'axios';
 import './Entrance.css'
 import Urls from '../../utils/Urls'
 import { useHistory, withRouter } from 'react-router-dom';
+import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 
 function Entrance() {
     const [isLoading, setIsLoading] = useState(false)
 
     let history = useHistory()
+    let targetElement = null;
     
     const checkRoom = async (inputName, _password) => {
         setIsLoading(true)
@@ -33,6 +35,11 @@ function Entrance() {
         })
         setIsLoading(false)
     }
+
+    useEffect(() => {
+        targetElement = document.querySelector('#main')
+        disableBodyScroll(targetElement)
+    }, [])
 
  
 
