@@ -42,13 +42,12 @@ router.post('/api/v1/enterRoom', async (req, res) => {
     let cnt
     await sqlUtil.sqlQueryPromise(checkSql)
     .then((rows) => {
-        if (rows[0].idx === null) {
+        if (rows === null) {
             res.status(statusCode.BAD_REQUEST).send(
                 ResponseUtil(statusCode.BAD_REQUEST, "정확한 방 번호를 입력하세요.", null)
             ).end()
             return
-        }
-        else {
+        } else {
             cnt = rows.length
         }
     })
