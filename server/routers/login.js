@@ -65,11 +65,13 @@ router.post('/api/v1/enterRoom', async (req, res) => {
         if (room.length === 0) {
             res.status(statusCode.BAD_REQUEST).send(
                 ResponseUtil(statusCode.BAD_REQUEST, "정확한 방 번호를 입력하세요.", null)
-            )
+            ).end()
+            return;
         } else if(room[0].password !== password) {
             res.status(statusCode.BAD_REQUEST).send(
                 ResponseUtil(statusCode.BAD_REQUEST, "비밀번호가 일치하지 않습니다.", null)
-            )
+            ).end()
+            return;
         } else {
             res.status(statusCode.OK).send(
                 ResponseUtil(statusCode.OK, "Salon Enter Success", 
@@ -77,13 +79,14 @@ router.post('/api/v1/enterRoom', async (req, res) => {
                         maxPage: cnt
                     }
                 )
-            )
+            ).end()
+            return;
         }
     })
     .catch((err) => {
         res.status(statusCode.INTERNAL_SERVER_ERROR).send(
             ResponseUtil(statusCode.INTERNAL_SERVER_ERROR, "Failure", null)
-        )
+        ).end()
         console.error(err)
     })
 })
