@@ -133,7 +133,7 @@ router.post('/api/v1/enterRoom', async (req, res) => {
         } else {
             console.log("위드 살롱 입장 => 고유 코드 : ", roomName)
 
-            let mainSql = `SELECT pageNum, contentImage, questionImage, questionContent, popupImage FROM room 
+            let mainSql = `SELECT pageNum, contentImage, questionImage, questionContent, popupImage, popupMessage FROM room 
             LEFT JOIN salon ON room.category = salon.category 
             WHERE room.roomName = '${roomName}' ORDER BY pageNum ASC`
 
