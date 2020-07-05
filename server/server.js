@@ -1,9 +1,7 @@
 const express = require('express')
 const app = express()
-const bodyParser = require('body-parser')
 const compression = require('compression');
 const loginRouter = require('./routers/login')
-const roomRouter = require('./routers/room')
 const cors = require('cors')
 
 const PORT = process.env.PORT || 4000
@@ -21,7 +19,6 @@ app.use((req, res, next) => {
 });
 
 app.use('/', loginRouter)
-app.use('/', roomRouter)
 
 app.use((req, res, next) => {
     res.status(404).send('<h2>Not found : 404</h2>');
