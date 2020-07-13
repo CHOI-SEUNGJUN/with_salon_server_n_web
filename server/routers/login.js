@@ -9,28 +9,6 @@ router.post('/api/v1/enterRoom', async (req, res) => {
     let roomName = req.body.roomName
     let password = req.body.password
 
-    // let checkSql = `SELECT salon.idx, salon.category, room.curPage FROM room 
-    // LEFT JOIN salon ON room.category = salon.category
-    // WHERE (room.roomName = '${roomName}')`
-
-    // let cnt
-    // await sqlUtil.sqlQueryPromise(checkSql)
-    // .then((rows) => {
-    //     if (rows === null) {
-    //         res.status(statusCode.BAD_REQUEST).send(
-    //             ResponseUtil(statusCode.BAD_REQUEST, "정확한 방 번호를 입력하세요.", null)
-    //         ).end()
-    //         return
-    //     } else {
-    //         cnt = rows.length
-    //     }
-    // })
-    // .catch((err) => {
-    //     res.status(statusCode.INTERNAL_SERVER_ERROR).send(
-    //         ResponseUtil(statusCode.INTERNAL_SERVER_ERROR, "Failure", null)
-    //     ).end()
-    //     return;
-    // })
 
     await sqlUtil.sqlQueryPromise(`SELECT * FROM room WHERE roomName = '${roomName}'`)
     .then((room) => {
@@ -106,6 +84,43 @@ router.post('/api/v1/enterRoom', async (req, res) => {
         ).end()
         console.error(err)
     })
+})
+
+
+router.post('/api/v1/createRoom', async (req, res) => {
+    
+    let salon = {
+        "roomName": req.body.roomName,
+        "password": req.body.password,
+        "category": req.body.category,
+    }
+
+    let sql  = "INSERT INTO `room` ";
+        sql += "(roomName, category, password) ";
+        sql += "VALUES ('"+ salon.roomName + "', '" + salon.category + "', '" + salon.password + "')";
+
+    await sqlUtil.sqlQueryPromise(sql)
+        .then((rows) => {
+            res.status(statusCode.OK).send(
+                ResponseUtil(statusCode.OK, "CREATE SUCCESS", null)
+            ).end()
+            return
+            // if (rows[0].idx === null) {
+            //     res.status(statusCode.BAD_REQUEST).send(
+            //         ResponseUtil(statusCode.BAD_REQUEST, "WHAT", null)
+            //     ).end()
+            //     return
+            // } else {
+                
+            // }
+        })
+        .catch((err) => {
+            console.log('create room error', err)
+            res.status(statusCode.INTERNAL_SERVER_ERROR).send(
+                ResponseUtil(statusCode.INTERNAL_SERVER_ERROR, "Internal server error", null)
+            ).end()
+            return
+        })
 })
 
 module.exports = router
